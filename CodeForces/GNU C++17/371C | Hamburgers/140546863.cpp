@@ -1,0 +1,144 @@
+// Created by: G Gautham Krishna
+#include <bits/stdc++.h>
+ 
+using namespace std;
+ 
+// shortforms
+ 
+// #define pb push_back
+#define pf push_front
+#define ppb pop_back
+#define ppf pop_front
+#define all(x) (x).begin(),(x).end()
+#define srt(v) sort(v.begin(),v.end())
+#define rev(v) reverse(v.begin(),v.end())
+#define lb(v,x) lower_bound(v.begin(),v.end(),x)
+#define ub(v,x) upper_bound(v.begin(),v.end(),x)
+#define cpy(v2,v1) v2.assign(v1.begin(),v1.end())
+#define maxv(a) *max_element(a.begin(), a.end())
+#define minv(a) *min_element(a.begin(), a.end())
+#define ff first
+#define ss second
+ 
+//type definitions
+ 
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double lld;
+ 
+//constants
+ 
+const long long int inf = 1e18;
+const int mod = 1000000007;
+#define pi 3.141592653589793238462
+ 
+//graphs
+ 
+//const int N=1e5+2;
+//std::vector<int> vis(N,0);
+//std::vector<int> adj[N];
+ 
+// debugger
+ 
+#ifndef ONLINE_JUDGE
+#define debug(x) cerr << #x <<" "; _print(x); cerr << endl;
+#else
+#define debug(x)
+#endif
+ 
+void _print(ll t) {cerr << t;}
+void _print(int t) {cerr << t;}
+void _print(string t) {cerr << t;}
+void _print(char t) {cerr << t;}
+void _print(lld t) {cerr << t;}
+void _print(double t) {cerr << t;}
+void _print(ull t) {cerr << t;}
+ 
+template <class T, class V> void _print(pair <T, V> p);
+template <class T> void _print(vector <T> v);
+template <class T> void _print(set <T> v);
+template <class T, class V> void _print(map <T, V> v);
+template <class T> void _print(multiset <T> v);
+template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.ff); cerr << ","; _print(p.ss); cerr << "}";}
+template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
+template <class T, class V> void _print(multimap <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
+ 
+const int N=5000;
+ 
+int main() {
+ 
+    // //fast io
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+ 
+    //main code starts here
+    string s;
+    cin>>s;
+    int rb=0, rs=0,rc=0;
+    for(int i=0;i<s.size();i++){
+        if(s[i]=='B'){
+            rb++;
+        }
+        else if(s[i]=='S'){
+            rs++;
+        }
+        else{
+            rc++;
+        }
+    }
+    ll nb,ns,nc,pb,ps,pc;
+    cin>>nb>>ns>>nc;
+    cin>>pb>>ps>>pc;
+    ll r;
+    cin>>r;
+    ll ans=0;
+    ll bprice =rb*pb+rc*pc+rs*ps;
+    // int x=min(nb/rb,min(ns/rs,nc/rc));
+    ll x=INT_MAX;
+    if(rb>0){
+        x=min(x,nb/rb);
+    }
+    if(rs>0){
+        x=min(x,ns/rs);
+    }
+    if(rc>0){
+        x=min(x,nc/rc);
+    }
+    ans=ans+x;
+    nb=nb-x*rb;
+    ns=ns-x*rs;
+    nc=nc-x*rc;
+    while((nb!=0 && rb!=0) || (ns!=0 && rs!=0) || (nc!=0 && rc!=0)){
+        if(nb<rb){
+            r=r-(rb-nb)*pb;
+            if(r<0){
+                break;
+            }
+            nb=rb;
+        }
+        if(nc<rc){
+            r=r-(rc-nc)*pc;
+            if(r<0){
+                break;
+            }
+            nc=rc;
+        }
+        if(ns<rs){
+            r=r-(rs-ns)*ps;
+            if(r<0){
+                break;
+            }
+            ns=rs;
+        }
+        ans++;
+        nb=nb-rb;
+        nc=nc-rc;
+        ns=ns-rs;
+    }
+    ans=ans+r/bprice;
+    cout<<ans<<endl;
+    return 0;
+}
